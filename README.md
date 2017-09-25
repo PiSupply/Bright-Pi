@@ -3,7 +3,9 @@
 Bright Pi
 
 Quick start and FAQ - https://www.pi-supply.com/make/bright-pi-quickstart-faq/
+
 Code Examples - https://www.pi-supply.com/bright-pi-v1-0-code-examples/
+
 Assembly guide - https://www.pi-supply.com/bright-pi-v1-0-assembly-instructions/
 
 # Third party software libraries
