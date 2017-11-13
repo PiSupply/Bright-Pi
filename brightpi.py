@@ -1,0 +1,168 @@
+# White LEDs:
+#   1, 2, 3, 4
+# IR LEDs (in pairs)
+#   5, 6, 7, 8
+# Gain from 0 to 15
+# Dim from 0 to 50
+
+import smbus
+import time
+
+LED_ALL = (1, 2, 3, 4, 5, 6, 7, 8)
+LED_IR = LED_ALL[4:8]
+LED_WHITE = LED_ALL[0:4]
+LED1 = (1,)
+LED2 = (2,)
+LED3 = (3,)
+LED4 = (4,)
+LED5 = (5,)
+LED6 = (6,)
+LED7 = (7,)
+LED8 = (8,)
+ON = 1
+OFF = 0
+ROT_CW = 0
+ROT_CCW = 1
+
+class BrightPi(object):
+    _device_address = 0x70
+    _gain_register = 0x09
+    _led_status_register = 0x00
+    _max_dim = 0x32
+    _max_gain = 0b1111
+    _default_gain = 0b1000
+    # LEDs are reordered so that 0..3 are white and 4..7 are IR pairs
+    _led_hex = (0x02, 0x08, 0x10, 0x40, 0x01, 0x04, 0x20, 0x80)
+
+    def __init__(self):
+        self._bus = smbus.SMBus(1)
+        self._led_on_off = self._bus.read_byte_data(BrightPi._device_address, BrightPi._led_status_register)
+        self._led_dim = [0 for i in range(0, 8)]
+        for i in range(0, 8):
+            self._led_dim[i] = self._bus.read_byte_data(BrightPi._device_address, i + 1)
+        self._gain = self._bus.read_byte_data(BrightPi._device_address, BrightPi._gain_register)
+
+    def __str__(self):
+        return "%d,%d,%s" %(self._gain, self._led_on_off, tuple(self._led_dim))
+
+    def reset(self):
+        self.set_gain(BrightPi._default_gain)
+        self.set_led_dim(LED_ALL, BrightPi._max_dim)
+        self.set_led_on_off(LED_ALL, OFF)
+
+    def get_gain(self):
+        return self._gain
+
+    def set_gain(self, gain):
+        if gain >= 0 and gain < BrightPi._max_gain:
+            self._gain = gain
+            self._bus.write_byte_data(BrightPi._device_address, BrightPi._gain_register, self._gain)
+
+    def get_led_on_off(self, leds):
+        led_states = [OFF for i in range(0, 8)]
+        led_reg_states = self._bus.read_byte_data(BrightPi._device_address, BrightPi._led_status_register)
+        for led in leds:
+            if led >= 1 and led <= 8:
+                if led_reg_states & self._led_hex[led - 1]:
+                    led_states[led - 1] = led
+        return led_states
+
+    def set_led_on_off(self, leds, state):
+        if state == ON or state == OFF:
+            for led in leds:
+                if led >= 1 and led <= 8:
+                    self._led_on_off = self._bus.read_byte_data(BrightPi._device_address, BrightPi._led_status_register)
+                    if state == ON:
+                        self._led_on_off = self._led_on_off | BrightPi._led_hex[led - 1]
+                    else:
+                        self._led_on_off = self._led_on_off & ~ BrightPi._led_hex[led - 1]
+                self._bus.write_byte_data(BrightPi._device_address, BrightPi._led_status_register, self._led_on_off)
+
+    def get_led_dim(self):
+        return self._led_dim
+
+    def set_led_dim(self, leds, dim):
+        if dim >= 0 and dim <= BrightPi._max_dim:
+            for led in leds:
+                if led >= 1 and led <= 8:
+                    self._led_dim[led - 1] = dim
+                    self._bus.write_byte_data(BrightPi._device_address, led, self._led_dim[led - 1])
+
+class BrightPiSpecialEffects(BrightPi):
+
+
+    def __init__(self):
+        super(BrightPiSpecialEffects, self).__init__()
+
+    def __str__(self):
+        return "Gain: %d\nLED Status:%s\nLED Dimming:%s" %(self.get_gain(), tuple(self.get_led_on_off(LED_ALL)), tuple(self.get_led_dim()))
+
+    def flash(self, repetitions, interval):
+        for rep in range(0, repetitions):
+            self.set_led_on_off(LED_ALL, ON)
+            time.sleep(interval)
+            self.set_led_on_off(LED_ALL, OFF)
+            time.sleep(interval)
+
+    def altFlash(self, repetitions, interval, orientation = 'v'):
+        for rep in range(0, repetitions):
+            if orientation == 'v':
+                self.set_led_on_off((1, 2), ON)
+                self.set_led_on_off((3, 4), OFF)
+                time.sleep(interval)
+                self.set_led_on_off((1, 2), OFF)
+                self.set_led_on_off((3, 4), ON)
+                time.sleep(interval)
+            elif orientation == 'h':
+                self.set_led_on_off((1, 3), ON)
+                self.set_led_on_off((2, 4), OFF)
+                time.sleep(interval)
+                self.set_led_on_off((1, 3), OFF)
+                self.set_led_on_off((2, 4), ON)
+                time.sleep(interval)
+            elif orientation == 'x':
+                self.set_led_on_off((1, 4), ON)
+                self.set_led_on_off((2, 3), OFF)
+                time.sleep(interval)
+                self.set_led_on_off((1, 4), OFF)
+                self.set_led_on_off((2, 3), ON)
+                time.sleep(interval)
+            else:
+                print("Wrong parameter for orientation")
+
+    def nightRider(self, repetitions, delay, rotation = ROT_CW):
+        if rotation == ROT_CW:
+            for rep in range(0, repetitions):
+                for i in range(1, 5):
+                    self.set_led_on_off((i,), ON)
+                    time.sleep(delay)
+                    self.set_led_on_off((i,), OFF)
+        elif rotation == ROT_CCW:
+            for rep in range(0, repetitions):
+                for i in range(4, 0, -1):
+                    self.set_led_on_off((i,), ON)
+                    time.sleep(delay)
+                    self.set_led_on_off((i,), OFF)
+        else:
+            print("Wrong parameter for rotation")
+
+
+    def beacon(self, repetitions, speed):
+        self.set_led_on_off(LED_ALL, ON)
+        for rep in range(0, repetitions):
+            for gain in range(0, 16):
+                self.set_gain(gain)
+                time.sleep(speed)
+            for gain in range(15, -1, -1):
+                self.set_gain(gain)
+                time.sleep(speed)
+
+    def dimmer(self, repetitions, speed):
+        self.set_led_on_off(LED_ALL, ON)
+        for rep in range(0, repetitions):
+            for dim in range(0, 50):
+                self.set_led_dim(LED_WHITE, dim)
+                time.sleep(speed)
+            for dim in range(49, -1, -1):
+                self.set_led_dim(LED_WHITE, dim)
+                time.sleep(speed)
