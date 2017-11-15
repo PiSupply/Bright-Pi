@@ -101,8 +101,7 @@ class BrightPi(object):
                     self._bus.write_byte_data(BrightPi._device_address, led, self._led_dim[led - 1])
 
 class BrightPiSpecialEffects(BrightPi):
-    # This class provides a further level of abstraction to allow for easier usage
-    
+    # This class provides a further level of abstraction to allow for easier usage    
     def __init__(self):
         super(BrightPiSpecialEffects, self).__init__()
 
@@ -119,7 +118,7 @@ class BrightPiSpecialEffects(BrightPi):
             time.sleep(interval)
 
     def altFlash(self, repetitions, interval, orientation = 'v'):
-        # This method flashes white LEDs top to bottom, left to right or from oppose sides
+        # This method flashes white LEDs top to bottom, left to right or from opposed sides
         for rep in range(0, repetitions):
             if orientation == 'v':
                 self.set_led_on_off((1, 2), ON)
