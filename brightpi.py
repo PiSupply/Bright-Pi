@@ -1,3 +1,7 @@
+# This software is designed to work with Bright Pi
+# https://www.pi-supply.com/product/bright-pi-bright-white-ir-camera-light-raspberry-pi/
+# Special thanks to jritter for his original work on brightpi https://github.com/jritter/brightpi
+
 # White LEDs:
 #   1, 2, 3, 4
 # IR LEDs (in pairs)
@@ -8,6 +12,8 @@
 import smbus
 import time
 
+# Global variables to quickly reference to groups of LEDs or individual ones.
+# The LED* ones can only be used on their own
 LED_ALL = (1, 2, 3, 4, 5, 6, 7, 8)
 LED_IR = LED_ALL[4:8]
 LED_WHITE = LED_ALL[0:4]
@@ -19,6 +25,7 @@ LED5 = (5,)
 LED6 = (6,)
 LED7 = (7,)
 LED8 = (8,)
+
 ON = 1
 OFF = 0
 ROT_CW = 0
@@ -35,6 +42,7 @@ class BrightPi(object):
     _led_hex = (0x02, 0x08, 0x10, 0x40, 0x01, 0x04, 0x20, 0x80)
 
     def __init__(self):
+        # Attributes are set by reading the SC620 state
         self._bus = smbus.SMBus(1)
         self._led_on_off = self._bus.read_byte_data(BrightPi._device_address, BrightPi._led_status_register)
         self._led_dim = [0 for i in range(0, 8)]
@@ -43,9 +51,11 @@ class BrightPi(object):
         self._gain = self._bus.read_byte_data(BrightPi._device_address, BrightPi._gain_register)
 
     def __str__(self):
+        # Provide a comma separated output for further manipulation
         return "%d,%d,%s" %(self._gain, self._led_on_off, tuple(self._led_dim))
 
     def reset(self):
+        # This method is used to reset the SC620 to its original state
         self.set_gain(BrightPi._default_gain)
         self.set_led_dim(LED_ALL, BrightPi._max_dim)
         self.set_led_on_off(LED_ALL, OFF)
@@ -59,6 +69,8 @@ class BrightPi(object):
             self._bus.write_byte_data(BrightPi._device_address, BrightPi._gain_register, self._gain)
 
     def get_led_on_off(self, leds):
+        # The status of the LEDs is returned as an array where an ON LED is represented with numbers from 1 to 8 depending on its position in _led_hex
+        # An OFF LED is represented with a 0
         led_states = [OFF for i in range(0, 8)]
         led_reg_states = self._bus.read_byte_data(BrightPi._device_address, BrightPi._led_status_register)
         for led in leds:
@@ -89,15 +101,17 @@ class BrightPi(object):
                     self._bus.write_byte_data(BrightPi._device_address, led, self._led_dim[led - 1])
 
 class BrightPiSpecialEffects(BrightPi):
-
-
+    # This class provides a further level of abstraction to allow for easier usage
+    
     def __init__(self):
         super(BrightPiSpecialEffects, self).__init__()
 
     def __str__(self):
+        # The output is provides a readable format of the Bright Pi's status
         return "Gain: %d\nLED Status:%s\nLED Dimming:%s" %(self.get_gain(), tuple(self.get_led_on_off(LED_ALL)), tuple(self.get_led_dim()))
 
     def flash(self, repetitions, interval):
+        # This method flashes all LEDs at an interval for a number of times
         for rep in range(0, repetitions):
             self.set_led_on_off(LED_ALL, ON)
             time.sleep(interval)
@@ -105,6 +119,7 @@ class BrightPiSpecialEffects(BrightPi):
             time.sleep(interval)
 
     def altFlash(self, repetitions, interval, orientation = 'v'):
+        # This method flashes white LEDs top to bottom, left to right or from oppose sides
         for rep in range(0, repetitions):
             if orientation == 'v':
                 self.set_led_on_off((1, 2), ON)
@@ -131,6 +146,8 @@ class BrightPiSpecialEffects(BrightPi):
                 print("Wrong parameter for orientation")
 
     def nightRider(self, repetitions, delay, rotation = ROT_CW):
+        # This method flashes one white LED after another as to give the impression of a rotating sequence
+        # Using the global variables ROT_CW for clockwise and ROT_CCW for counterclockwise
         if rotation == ROT_CW:
             for rep in range(0, repetitions):
                 for i in range(1, 5):
@@ -146,8 +163,8 @@ class BrightPiSpecialEffects(BrightPi):
         else:
             print("Wrong parameter for rotation")
 
-
     def beacon(self, repetitions, speed):
+        # This method changes the gain on all LEDs from min (0b0000) to max (0b1111)
         self.set_led_on_off(LED_ALL, ON)
         for rep in range(0, repetitions):
             for gain in range(0, 16):
@@ -158,6 +175,7 @@ class BrightPiSpecialEffects(BrightPi):
                 time.sleep(speed)
 
     def dimmer(self, repetitions, speed):
+        # This method changes the dimmming on white LEDs from min (0x00) to max (0x32)
         self.set_led_on_off(LED_ALL, ON)
         for rep in range(0, repetitions):
             for dim in range(0, 50):
