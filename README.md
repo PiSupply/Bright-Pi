@@ -8,7 +8,6 @@ Please check our [quick start and FAQ](https://www.pi-supply.com/make/bright-pi-
 # Setup Bright-Pi
 
 ## Auto Installation
-_(URL not yet working)_
 
 Just run the following script in a terminal window and PaPiRus will be automatically setup.
 ```bash
@@ -65,7 +64,7 @@ get_dim()
 set_dim(leds, dim)
 ```
 
-## The Special Effect
+## The Special Effects
 
 ```python
 # Global variables to indicate clockwise and counterclockwise LEDs rotations sequences.
@@ -79,12 +78,12 @@ flash(repetitions, interval)
 # This method flashes white LEDs top to bottom, left to right or from opposed sides.
 # repetitions indicates how many flashes will be done and interval represents the time between on and off. Orientation defaults to 'v'.
 # Allowed values are: 'v', 'h' and 'x'.
-altflash(repetitions, interval, orientation)
+alt_flash(repetitions, interval, orientation)
 
 # This method flashes one white LED after another as to give the impression of a rotating sequence.
 # Using the global variables ROT_CW for clockwise and ROT_CCW for counterclockwise.
 # repetitions indicates how many complete sequences will be done, delay represents the time between LEDs subsequantly turning on and rotation set the direction.
-nightRider(repetitions, delay, rotation)
+night_rider(repetitions, delay, rotation)
 
 # This method changes the gain on all LEDs from min (0b0000) to max (0b1111)
 # repetitions indicates how many cycles will be done and speed represents how quickly each cycle will be completed by specifing a time between each change of gain.
@@ -147,23 +146,23 @@ brightSpecial.set_led_on_off((1,2,3,4), 0)
 brightSpecial.beacon(2, 0.1)
 
 # This method flashes one white LED after another as to give the impression of a clockwise rotating sequence.
-brightSpecial.nightRider(10, 0.1)
+brightSpecial.night_rider(10, 0.1)
 
 # This method flashes one white LED after another as to give the impression of a counterclockwise rotating sequence.
-brightSpecial.nightRider(10, 0.1, ROT_CCW)
+brightSpecial.night_rider(10, 0.1, ROT_CCW)
 
 brightSpecial.dimmer(2, 0.2)
 
 brightSpecial.flash(5, 1)
 
 # This method flashes white LEDs top to bottom.
-brightSpecial.altFlash(5, 0.2)
+brightSpecial.alt_flash(5, 0.2)
 
 # This method flashes white LEDs left to right.
-brightSpecial.altFlash(5, 0.2, 'h')
+brightSpecial.alt_flash(5, 0.2, 'h')
 
 # This method flashes white LEDs from opposed sides.
-brightSpecial.altFlash(5, 0.2, 'x')
+brightSpecial.alt_flash(5, 0.2, 'x')
 ```
 
 # Hardware tips

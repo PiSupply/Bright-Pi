@@ -117,7 +117,7 @@ class BrightPiSpecialEffects(BrightPi):
             self.set_led_on_off(LED_ALL, OFF)
             time.sleep(interval)
 
-    def altFlash(self, repetitions, interval, orientation = 'v'):
+    def alt_flash(self, repetitions, interval, orientation ='v'):
         # This method flashes white LEDs top to bottom, left to right or from opposed sides
         for rep in range(0, repetitions):
             if orientation == 'v':
@@ -144,7 +144,7 @@ class BrightPiSpecialEffects(BrightPi):
             else:
                 print("Wrong parameter for orientation")
 
-    def nightRider(self, repetitions, delay, rotation = ROT_CW):
+    def night_rider(self, repetitions, delay, rotation = ROT_CW):
         # This method flashes one white LED after another as to give the impression of a rotating sequence
         # Using the global variables ROT_CW for clockwise and ROT_CCW for counterclockwise
         if rotation == ROT_CW:
