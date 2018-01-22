@@ -165,6 +165,13 @@ brightSpecial.alt_flash(5, 0.2, 'h')
 brightSpecial.alt_flash(5, 0.2, 'x')
 ```
 
+# Command Line
+
+```bash
+# Run a demo using the various controls and effects
+brightpi-test.py
+```
+
 # Hardware tips
 
 **LED PN**
