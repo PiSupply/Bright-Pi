@@ -1,3 +1,4 @@
+__version__ = "1.0"
 # This software is designed to work with Bright Pi
 # https://www.pi-supply.com/product/bright-pi-bright-white-ir-camera-light-raspberry-pi/
 # Special thanks to jritter for his original work on brightpi https://github.com/jritter/brightpi
@@ -101,7 +102,7 @@ class BrightPi(object):
                     self._bus.write_byte_data(BrightPi._device_address, led, self._led_dim[led - 1])
 
 class BrightPiSpecialEffects(BrightPi):
-    # This class provides a further level of abstraction to allow for easier usage    
+    # This class provides a further level of abstraction to allow for easier usage
     def __init__(self):
         super(BrightPiSpecialEffects, self).__init__()
 
