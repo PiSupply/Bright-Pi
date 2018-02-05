@@ -58,10 +58,10 @@ get_led_on_off(leds)
 set_led_on_off(leds, state)
 
 # get_dim and set_dim retrieve and set the dim for the specified LEDs.
-get_dim()
+get_led_dim()
 # Dim from 0 (0x00) to 50 (0x32).
 # leds is a tuble or array of LEDs for which you are setting the dimming level as dim.
-set_dim(leds, dim)
+set_led_dim(leds, dim)
 ```
 
 ## The Special Effects
