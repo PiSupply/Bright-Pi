@@ -12,7 +12,7 @@ Please check our [quick start and FAQ](https://www.pi-supply.com/make/bright-pi-
 Just run the following script in a terminal window and PaPiRus will be automatically setup.
 ```bash
 # Run this line and Bright Pi will be setup and installed
-curl -sSL https://pisupp.ly/brightpicode | sudo bash
+curl -sSL https://pisupp.ly/brightpicode | bash
 ```
 
 # Python API
