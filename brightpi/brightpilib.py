@@ -10,7 +10,7 @@ __version__ = "1.0"
 # Gain from 0 to 15
 # Dim from 0 to 50
 
-import smbus
+import smbus2
 import time
 
 # Global variables to quickly reference to groups of LEDs or individual ones.
@@ -44,7 +44,7 @@ class BrightPi(object):
 
     def __init__(self):
         # Attributes are set by reading the SC620 state
-        self._bus = smbus.SMBus(1)
+        self._bus = smbus2.SMBus(1)
         self._led_on_off = self._bus.read_byte_data(BrightPi._device_address, BrightPi._led_status_register)
         self._led_dim = [0 for i in range(0, 8)]
         for i in range(0, 8):

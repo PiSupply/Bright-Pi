@@ -10,5 +10,7 @@ setup(name="brightpi",
       author_email='sales@pi-supply.com',
       url='pi-supply.com',
       packages=['brightpi'],
-      scripts=['src/brightpi-test.py']
-      )
+      scripts=['src/brightpi-test.py'],
+      install_requires=[
+          'smbus2>=0.2.0'
+      ])
