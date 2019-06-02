@@ -65,7 +65,7 @@ class BrightPi(object):
         return self._gain
 
     def set_gain(self, gain):
-        if gain >= 0 and gain < BrightPi._max_gain:
+        if gain >= 0 and gain <= BrightPi._max_gain:
             self._gain = gain
             self._bus.write_byte_data(BrightPi._device_address, BrightPi._gain_register, self._gain)
 
