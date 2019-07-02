@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # Demo code showing main and subclass and various methods invocation
 
-from brightpi.brightpilib import *
+from brightpi import *
 import time
 
 brightPi = BrightPi()
@@ -12,25 +12,25 @@ brightSpecial.reset()
 
 brightSpecial.set_led_on_off(leds, ON)
 time.sleep(2)
-print brightSpecial
+print(brightSpecial)
 
 time.sleep(2)
 
 brightSpecial.set_led_on_off(LED_WHITE, OFF)
 brightSpecial.set_led_on_off(LED_IR, ON)
 brightSpecial.set_gain(9)
-print brightSpecial
+print(brightSpecial)
 time.sleep(2)
 
 brightSpecial.set_led_on_off(LED1, ON)
-print brightSpecial
+print(brightSpecial)
 
 time.sleep(2)
 
 brightSpecial.set_gain(2)
 brightSpecial.set_led_on_off(LED3, ON)
 brightSpecial.set_led_dim(LED3, 10)
-print brightSpecial
+print(brightSpecial)
 
 time.sleep(2)
 
@@ -44,15 +44,15 @@ brightSpecial.set_led_on_off((1,2,3,4), 0)
 time.sleep(1)
 brightSpecial.set_led_on_off((1,2,3,4), 1)
 brightSpecial.beacon(2, 0.1)
-print brightSpecial
+print(brightSpecial)
 brightSpecial.reset()
 
 brightSpecial.set_gain(8)
-print brightSpecial
+print(brightSpecial)
 brightSpecial.night_rider(10, 0.1)
 brightSpecial.night_rider(10, 0.1, 1)
 brightSpecial.dimmer(2, 0.2)
-print brightSpecial
+print(brightSpecial)
 brightSpecial.reset()
 brightSpecial.flash(5, 1)
 brightSpecial.alt_flash(5, 0.2)

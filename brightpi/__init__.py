@@ -1,1 +1,1 @@
-from brightpilib import BrightPi, BrightPiSpecialEffects
+from brightpi.brightpilib import *

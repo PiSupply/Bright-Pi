@@ -1,4 +1,4 @@
-__version__ = "1.0"
+__version__ = "2.0"
 # This software is designed to work with Bright Pi
 # https://www.pi-supply.com/product/bright-pi-bright-white-ir-camera-light-raspberry-pi/
 # Special thanks to jritter for his original work on brightpi https://github.com/jritter/brightpi
@@ -32,7 +32,7 @@ OFF = 0
 ROT_CW = 0
 ROT_CCW = 1
 
-class BrightPi(object):
+class BrightPi:
     _device_address = 0x70
     _gain_register = 0x09
     _led_status_register = 0x00
@@ -53,7 +53,7 @@ class BrightPi(object):
 
     def __str__(self):
         # Provide a comma separated output for further manipulation
-        return "%d,%d,%s" %(self._gain, self._led_on_off, tuple(self._led_dim))
+        return "{},{},{}".format(self._gain, self._led_on_off, tuple(self._led_dim))
 
     def reset(self):
         # This method is used to reset the SC620 to its original state
@@ -108,7 +108,7 @@ class BrightPiSpecialEffects(BrightPi):
 
     def __str__(self):
         # The output is provides a readable format of the Bright Pi's status
-        return "Gain: %d\nLED Status:%s\nLED Dimming:%s" %(self.get_gain(), tuple(self.get_led_on_off(LED_ALL)), tuple(self.get_led_dim()))
+        return "Gain: {}\nLED Status:{}\nLED Dimming:{}".format(self.get_gain(), tuple(self.get_led_on_off(LED_ALL)), tuple(self.get_led_dim()))
 
     def flash(self, repetitions, interval):
         # This method flashes all LEDs at an interval for a number of times
