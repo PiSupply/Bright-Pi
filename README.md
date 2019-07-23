@@ -9,7 +9,7 @@ Please check our [quick start and FAQ](https://www.pi-supply.com/make/bright-pi-
 
 ## Auto Installation
 
-Just run the following script in a terminal window and PaPiRus will be automatically setup.
+Just run the following script in a terminal window and Bright-Pi will be automatically setup.
 ```bash
 # Run this line and Bright Pi will be setup and installed
 curl -sSL https://pisupp.ly/brightpicode | bash
@@ -52,15 +52,15 @@ set_gain(gain)
 #   1, 2, 3, 4
 # IR LEDs (in pairs)
 #   5, 6, 7, 8
-# leds is a tuble or array of LEDs for which you require a status.
+# leds is a tuple or array of LEDs for which you require a status.
 get_led_on_off(leds)
-# leds is a tuble or array of LEDs for which you are setting the status as state.
+# leds is a tuple or array of LEDs for which you are setting the status as state.
 set_led_on_off(leds, state)
 
 # get_dim and set_dim retrieve and set the dim for the specified LEDs.
 get_led_dim()
 # Dim from 0 (0x00) to 50 (0x32).
-# leds is a tuble or array of LEDs for which you are setting the dimming level as dim.
+# leds is a tuple or array of LEDs for which you are setting the dimming level as dim.
 set_led_dim(leds, dim)
 ```
 
@@ -82,15 +82,15 @@ alt_flash(repetitions, interval, orientation)
 
 # This method flashes one white LED after another as to give the impression of a rotating sequence.
 # Using the global variables ROT_CW for clockwise and ROT_CCW for counterclockwise.
-# repetitions indicates how many complete sequences will be done, delay represents the time between LEDs subsequantly turning on and rotation set the direction.
+# repetitions indicates how many complete sequences will be done, delay represents the time between LEDs subsequently turning on and rotation set the direction.
 night_rider(repetitions, delay, rotation)
 
 # This method changes the gain on all LEDs from min (0b0000) to max (0b1111)
-# repetitions indicates how many cycles will be done and speed represents how quickly each cycle will be completed by specifing a time between each change of gain.
+# repetitions indicates how many cycles will be done and speed represents how quickly each cycle will be completed by specifying a time between each change of gain.
 beacon(repetitions, speed)
 
-# This method changes the dimmming on white LEDs from min (0x00) to max (0x32)
-# repetitions indicates how many cycles will be done and speed represents how quickly each cycle will be completed by specifing a time between each change of dimming level.
+# This method changes the dimming on white LEDs from min (0x00) to max (0x32)
+# repetitions indicates how many cycles will be done and speed represents how quickly each cycle will be completed by specifying a time between each change of dimming level.
 dimmer(repetitions, speed)
 ```
 
@@ -106,7 +106,7 @@ brightPi = BrightPi()
 # This method is used to reset the SC620 to its original state.
 brightPi.reset()
 
-# LEDs can be prepared as tuples by explicitely specifing each,
+# LEDs can be prepared as tuples by explicitly specifying each,
 leds = (1, 2, 3, 4)
 # or as an array,
 leds = [1, 2]
@@ -118,7 +118,7 @@ brightPi.set_led_on_off(LED_WHITE, ON)
 # and single LEDs can be used too.
 brightPi.set_led_on_off(LED2, ON)
 
-# When passing LEDs on their own without using the gloabal variables each has to be represented as a tuple with only one element.
+# When passing LEDs on their own without using the global variables each has to be represented as a tuple with only one element.
 led1 = (1, )
 brightPi.set_led_on_off(led1, ON)
 # This could help for example in a loop.
@@ -200,3 +200,4 @@ It is safe to say we have an awesome and growing community of people using Brigh
 [Code Examples](https://www.pi-supply.com/bright-pi-v1-0-code-examples/)
 
 [Assembly guide](https://www.pi-supply.com/bright-pi-v1-0-assembly-instructions/) 
+
