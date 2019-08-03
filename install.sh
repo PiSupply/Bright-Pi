@@ -10,7 +10,7 @@ git clone https://github.com/PiSupply/Bright-Pi.git
 
 cd Bright-Pi
 
-sudo python setup.py install
+sudo python3 setup.py install
 
 whiptail --msgbox "The system will now reboot" 8 40
 sudo reboot
