@@ -99,7 +99,7 @@ class BrightPi:
             for led in leds:
                 if led >= 1 and led <= 8:
                     self._led_dim[led - 1] = dim
-                    self._bus.write_byte_data(BrightPi._device_address, led, self._led_dim[led - 1])
+                    self._bus.write_byte_data(BrightPi._device_address, self._led_hex[led - 1], self._led_dim[led - 1])
 
 class BrightPiSpecialEffects(BrightPi):
     # This class provides a further level of abstraction to allow for easier usage
