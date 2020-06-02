@@ -189,6 +189,7 @@ GPIO              Bright Pi
 4 - GND      -->  1
 5 - I2C_SCL  -->  3
 ```
+**NOTE:** The maximum current draw with all LEDs ON is 120mA.
 
 # Third party software libraries
 
