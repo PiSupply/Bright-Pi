@@ -41,6 +41,7 @@ class BrightPi:
     _default_gain = 0b1000
     # LEDs are reordered so that 0..3 are white and 4..7 are IR pairs
     _led_hex = (0x02, 0x08, 0x10, 0x40, 0x01, 0x04, 0x20, 0x80)
+    _led_dim_hex = (0x02, 0x04, 0x05, 0x07, 0x01, 0x03, 0x06, 0x08)
 
     def __init__(self):
         # Attributes are set by reading the SC620 state
@@ -99,7 +100,7 @@ class BrightPi:
             for led in leds:
                 if led >= 1 and led <= 8:
                     self._led_dim[led - 1] = dim
-                    self._bus.write_byte_data(BrightPi._device_address, led, self._led_dim[led - 1])
+                    self._bus.write_byte_data(BrightPi._device_address, self._led_dim_hex[led - 1], self._led_dim[led - 1])
 
 class BrightPiSpecialEffects(BrightPi):
     # This class provides a further level of abstraction to allow for easier usage
